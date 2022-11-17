@@ -1,4 +1,9 @@
+default-lease-time 600;
+max-lease-time 7200;
 authoritative;
+
+option domain-name "grp3.local"
+option domain-name-servers DC1-GRP3.grp3.local, DC2-GRP3.grp3.local;
  
 #DHCP Service Configuration
 subnet 172.16.1.0 netmask 255.255.255.0 {
