@@ -2,19 +2,8 @@ default-lease-time 600;
 max-lease-time 7200;
 authoritative;
 
-option domain-name "grp3.local"
+option domain-name "grp3.local";
 option domain-name-servers DC1-GRP3.grp3.local, DC2-GRP3.grp3.local;
- 
-#DHCP Service Configuration
-subnet 172.16.1.0 netmask 255.255.255.0 {
-  pool{
-    failover peer "dhcp-failover";
-    range 172.16.1.100 172.16.1.150;
-  }
-  option routers 172.16.1.2;
-  option domain-name-servers 172.16.1.12, 172.16.1.13;
-  option domain-name "grp3.local";
-}
 
 #DHCP Failover (redundancy) configuration
 failover peer "dhcp-failover" {
@@ -28,4 +17,15 @@ failover peer "dhcp-failover" {
   mclt 3600;
   split 255;
   load balance max seconds 5;
+}
+
+#DHCP Service Configuration
+subnet 172.16.1.0 netmask 255.255.255.0 {
+  option routers 172.16.1.2;
+  option domain-name-servers 172.16.1.12, 172.16.1.13;
+  option domain-name "grp3.local";
+  pool{
+    failover peer "dhcp-failover";
+    range 172.16.1.100 172.16.1.150;
+  }
 }
